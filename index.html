@@ -2,50 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Video Fullscreen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pantalla de carga con video y redirección</title>
   <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
     html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+      width: 100%; height: 100%; overflow: hidden;
+      font-family: Arial, sans-serif;
     }
     #videoContainer {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: black;
-      z-index: 9999;
+      z-index: 1000;
     }
-    video {
-      width: 100%;
-      height: 100%;
+    #videoContainer video {
+      width: 100%; height: 100%;
       object-fit: cover;
+    }
+    #iframeContainer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: none; /* oculto al inicio */
+      z-index: 10;
+    }
+    #iframeContainer iframe {
+      width: 100%; height: 100%; border: none;
     }
   </style>
 </head>
 <body>
 
+  <!-- Video pantalla de carga -->
   <div id="videoContainer">
-    <video id="myVideo" autoplay muted>
-      <source src="../Video/Render.mp4" type="video/mp4">
+    <video id="loadingVideo" autoplay muted>
+      <source src="../Video/Render.mp4" type="video/mp4" />
+      Tu navegador no soporta video.
     </video>
   </div>
 
-  <script>
-    const video = document.getElementById('myVideo');
+  <!-- Iframe con la página destino, oculto inicialmente -->
+  <div id="iframeContainer">
+    <iframe src="https://192.168.30.252:4443/#%2FEnterprise%20Server%2FBMS%2FProyectos%2FFord%2FSubestaci%C3%B3n%2FEnerg%C3%ADa"></iframe>
+  </div>
 
+  <script>
+    const video = document.getElementById('loadingVideo');
+    const videoContainer = document.getElementById('videoContainer');
+    const iframeContainer = document.getElementById('iframeContainer');
+
+    // Cuando termina el video, ocultar video y mostrar iframe
     video.addEventListener('ended', () => {
-      window.location.href = "https://192.168.30.252:4443/#%2FEnterprise%20Server%2FBMS%2FProyectos%2FFord%2FSubestaci%C3%B3n%2FEnerg%C3%ADa";
- 
-    });
+  setTimeout(() => {
+    videoContainer.style.display = 'none';
+    iframeContainer.style.display = 'block';
+  }, 2000); // 2000 milisegundos = 2 segundos
+});
   </script>
 
 </body>
